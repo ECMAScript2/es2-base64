@@ -7,38 +7,63 @@
  *    http://en.wikipedia.org/wiki/Base64
  */
 
-    'use strict';
+    // 'use strict';
 
 /** ===========================================================================
  * for closure compiler
  */
-    /** @define {boolean} */
-    var REGEXP_FREE_BASE64_DEFINE_DEBUG = true;
+    var
+        /** @define {boolean} */
+        REGEXP_FREE_BASE64_DEFINE_DEBUG            = true,
+        /** @define {boolean} */
+        REGEXP_FREE_BASE64_DEFINE_USE_UTOB         = true,
+        /** @define {boolean} */
+        REGEXP_FREE_BASE64_DEFINE_USE_BTOU         = true,
+        /** @define {boolean} */
+        REGEXP_FREE_BASE64_DEFINE_USE_BTOA         = true,
+        /** @define {boolean} */
+        REGEXP_FREE_BASE64_DEFINE_USE_ATOB         = true,
+        /** @define {boolean} */
+        REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_BTOA = false,
+        /** @define {boolean} */
+        REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_ATOB = false,
+        /** @define {boolean} */
+        REGEXP_FREE_BASE64_DEFINE_USE_UINT8        = true,
+        /** @define {boolean} */
+        REGEXP_FREE_BASE64_DEFINE_USE_ENCODE       = true,
+        /** @define {boolean} */
+        REGEXP_FREE_BASE64_DEFINE_USE_DECODE       = true;
 
 /** ===========================================================================
  * public
  */
-    var Base64_decode, Base64_encode,
+    /* var Base64_decode, Base64_encode,
         Base64_atob, Base64_btoa,
         Base64_utob, Base64_btou, Base64_encodeURI,
-        Base64_fromUint8Array, Base64_toUint8Array;
+        Base64_fromUint8Array, Base64_toUint8Array; */
 
 /** ===========================================================================
  * private
  */
 (function(global){
 // constants
-    var b64chars
-        = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+    var USE_URISAFE_B64CHAR = (!REGEXP_FREE_BASE64_DEFINE_USE_BTOA         && !REGEXP_FREE_BASE64_DEFINE_USE_ATOB) &&
+                              ( REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_BTOA ||  REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_ATOB) &&
+                              (!REGEXP_FREE_BASE64_DEFINE_USE_ENCODE       && !REGEXP_FREE_BASE64_DEFINE_USE_DECODE) &&
+                               !REGEXP_FREE_BASE64_DEFINE_USE_UINT8;
+    var b64chars = !USE_URISAFE_B64CHAR ?
+                      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'.split('') :
+                      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'.split('');
     var b64tab = {};
     
-    (function(bin){
-        for (var i = -1, chr; chr = bin.charAt(++i); ) b64tab[chr] = i;
-    })(b64chars);
+    (function(i, chr){
+        for (; chr = b64chars[++i];) b64tab[chr] = i;
+    })(-1);
 
     var fromCharCode = String.fromCharCode;
 
 // encoder stuff
+if(REGEXP_FREE_BASE64_DEFINE_USE_UTOB || REGEXP_FREE_BASE64_DEFINE_USE_ENCODE){
     Base64_utob = function(u) {
         var _fromCharCode = fromCharCode,
             b = '', len, cc1, cc2, cc, chr;
@@ -73,46 +98,74 @@
         };
         return b;
     };
-    Base64_btoa = !REGEXP_FREE_BASE64_DEFINE_DEBUG && global.btoa ? global.btoa :
-        function(b) {
-            var b64nToChar = b64chars.split(''),
-                _b = REGEXP_FREE_BASE64_DEFINE_DEBUG && b,
-                a = '',
-                padlen = 0, len, ord;
+};
 
-            while (len = b.length) {
-                if(len < 4){
-                    padlen = [0, 2, 1, 0][len];
-                };
-                ord =             b.charCodeAt(0)      << 16
-                    | ((len > 1 ? b.charCodeAt(1) : 0) <<  8)
-                    | ((len > 2 ? b.charCodeAt(2) : 0));
-                a += [
-                    b64nToChar[ ord >>> 18],
-                    b64nToChar[(ord >>> 12) & 63],
-                    padlen >= 2 ? '=' : b64nToChar[(ord >>> 6) & 63],
-                    padlen >= 1 ? '=' : b64nToChar[ord & 63]
-                ].join('');
-                b = b.substr(3);
-            };
+if(REGEXP_FREE_BASE64_DEFINE_USE_BTOA || REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_BTOA){
+    if(!REGEXP_FREE_BASE64_DEFINE_DEBUG && global.btoa){
+        _btoa = global.btoa;
+    };
+};
+function _btoa(b) {
+    var _b64chars = b64chars,
+        _b = REGEXP_FREE_BASE64_DEFINE_DEBUG && b,
+        a  = '',
+        padlen = 0,
+        padChr = USE_URISAFE_B64CHAR ? '' : '=',
+        len, ord;
 
-            if(REGEXP_FREE_BASE64_DEFINE_DEBUG && global.btoa){
-                if(global.btoa(_b) !== a) console.log( '** btoa error!' );
-            };
-            return a;
+    while (len = b.length) {
+        if(len < 4){
+            padlen = [0, 2, 1, 0][len];
         };
+        ord =             b.charCodeAt(0)      << 16
+            | ((len > 1 ? b.charCodeAt(1) : 0) <<  8)
+            | ((len > 2 ? b.charCodeAt(2) : 0));
+        a += [
+            _b64chars[ ord >>> 18],
+            _b64chars[(ord >>> 12) & 63],
+            padlen >= 2 ? padChr : _b64chars[(ord >>> 6) & 63],
+            padlen >= 1 ? padChr : _b64chars[ord & 63]
+        ].join('');
+        b = b.substr(3);
+    };
+
+    if(REGEXP_FREE_BASE64_DEFINE_DEBUG && global.btoa){
+        if(USE_URISAFE_B64CHAR){
+            if(mkUriSafe(global.btoa(_b)) !== a) alert( '** btoa error!' );
+        } else {
+            if(global.btoa(_b) !== a) alert( '** btoa error!' );
+        };
+    };
+    return a;
+};
     function _encode(u) {
-        return Base64_btoa(Base64_utob(u + ''));
+        return _btoa(Base64_utob(u + ''));
     };
     function mkUriSafe(b64) {
         return b64.split('+').join('-').split('/').join('_').split('=').join('');
     };
+
+if(REGEXP_FREE_BASE64_DEFINE_USE_BTOA){
+    Base64_btoa = _btoa;
+};
+
+if(REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_BTOA){
+    if(!USE_URISAFE_B64CHAR || global.btoa){
+        Base64_uriSafeBtoa = function(b) { return mkUriSafe(_btoa(b)) };
+    } else {
+        Base64_uriSafeBtoa = _btoa;
+    };
+};
+
+if(REGEXP_FREE_BASE64_DEFINE_USE_ENCODE){
     Base64_encode = function(u, urisafe) {
         return urisafe ? Base64_encodeURI(u) : _encode(u);
     };
     Base64_encodeURI = function(u) { return mkUriSafe(_encode(u)) };
+};
 
     // decoder stuff
+if(REGEXP_FREE_BASE64_DEFINE_USE_BTOU || REGEXP_FREE_BASE64_DEFINE_USE_DECODE){
     Base64_btou = function(b) {
         var _fromCharCode = fromCharCode,
             out = '',
@@ -168,6 +221,8 @@
         };
         return out;
     };
+};
+
     if(!REGEXP_FREE_BASE64_DEFINE_DEBUG && global.atob){
         _atob = global.atob;
     };
@@ -181,7 +236,7 @@
             if(len < 5){
                 padlen = [0, 0, 2, 1, 0][len];
             };
-            n =              b64tab[a.charAt(0)  ] << 18
+            n =              b64tab[a.charAt(0)] << 18
                 | (len > 1 ? b64tab[a.charAt(1)] << 12 : 0)
                 | (len > 2 ? b64tab[a.charAt(2)] <<  6 : 0)
                 | (len > 3 ? b64tab[a.charAt(3)]       : 0);
@@ -192,7 +247,11 @@
         };
 
         if(REGEXP_FREE_BASE64_DEFINE_DEBUG && global.atob){
-            if(global.atob(_a) !== b) console.log( '** atob error!' );
+            if(USE_URISAFE_B64CHAR){
+                if(_fromURI(global.atob(_a)) !== b) alert( '** atob error!' );
+            } else {
+                if(global.atob(_a) !== b) alert( '** atob error!' );
+            };
         };
 
         return b;
@@ -206,18 +265,31 @@
         };
         return b;
     };
+    function _fromURI(a) {
+        return (a + '').split('-').join('+').split('_').join('/');
+    };
+
+if(REGEXP_FREE_BASE64_DEFINE_USE_ATOB){
     Base64_atob = function(a) {
         return _atob(_cleanup(a));
     };
-    function _fromURI(a) {
-        return _cleanup((a + '').split('-').join('+').split('_').join('/'));
+};
+if(REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_ATOB){
+    if(!USE_URISAFE_B64CHAR || global.atob){
+        Base64_uriSafeAtob = function(a) { return _atob(_fromURI(a)) };
+    } else {
+        Base64_uriSafeAtob = _atob;
     };
+};
+if(REGEXP_FREE_BASE64_DEFINE_USE_DECODE){
     Base64_decode = function(a) {
-        return Base64_btou(_atob(_fromURI(a)));
+        return Base64_btou(_atob(_fromURI(_cleanup(a))));
     };
+};
 
 // Uint8Array
-    if (global.Uint8Array) {
+if(REGEXP_FREE_BASE64_DEFINE_USE_UINT8){
+    if(global.Uint8Array){
         Base64_fromUint8Array = function(a, urisafe) {
             var b64 = '', i = 0, l = a.length,
                 a0, a1, a2, ord, undef;
@@ -235,11 +307,12 @@
             return urisafe ? mkUriSafe(b64) : b64;
         };
         Base64_toUint8Array = function(a) {
-            return Uint8Array.from(_atob(_fromURI(a)), function(c) {
+            return Uint8Array.from(_atob(_fromURI(_cleanup(a))), function(c) {
                 return c.charCodeAt(0);
             });
         };
     };
+};
 
 // export Base64 for test
     if(REGEXP_FREE_BASE64_DEFINE_DEBUG){

@@ -1,32 +1,32 @@
-/** @tyoe {function} */
+/** @type {function} */
 var Base64_atob = function(){};
 
-/** @tyoe {function} */
+/** @type {function} */
 var Base64_btoa = function(){};
 
-/** @tyoe {function} */
+/** @type {function} */
 var Base64_uriSafeAtob = function(){};
 
-/** @tyoe {function} */
+/** @type {function} */
 var Base64_uriSafeBtoa = function(){};
 
-/** @tyoe {function} */
+/** @type {function} */
 var Base64_utob = function(){};
 
-/** @tyoe {function} */
+/** @type {function} */
 var Base64_btou = function(){};
 
-/** @tyoe {function} */
+/** @type {function} */
 var Base64_decode = function(){};
 
-/** @tyoe {function} */
+/** @type {function} */
 var Base64_encode = function(){};
 
-/** @tyoe {function} */
+/** @type {function} */
 var Base64_encodeURI = function(){};
 
-/** @tyoe {function} */
+/** @type {function} */
 var Base64_fromUint8Array = function(){};
 
-/** @tyoe {function} */
+/** @type {function} */
 var Base64_toUint8Array = function(){};

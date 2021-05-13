@@ -1,23 +1,28 @@
-[![build status](https://secure.travis-ci.org/dankogai/js-base64.png)](http://travis-ci.org/dankogai/js-base64)
+<!-- [![build status](https://secure.travis-ci.org/dankogai/js-base64.png)](http://travis-ci.org/dankogai/js-base64) -->
 
-# base64.js
+# regexp-free-js-base64
 
-Yet another Base64 transcoder
+[dankogai](https://github.com/dankogai) 氏の [js-base64](https://github.com/dankogai/js-base64) を元に、正規表現を不使用としました。正規表現をサポートしない Windows CE 版 Internet Explorer 4.01 でも動作します。(未確認)
 
-## Install
+Closure Compiler で必要な関数だけをプロジェクトに組み込み、高度に最適化する想定で [`@define`](./src/js/base64.js) を定義し [externs.js](./src/js-externs/externs.js) を用意しています。
 
-```javascript
-$ npm install --save js-base64
+Closure Compiler を使った最適化は [gulpfile.js](./gulpfile.js) を参照します。
+
+* [Demo for base64.js](https://itozyun.github.io/regexp-free-js-base64/test/demo.html)
+* [Mocha Tests](https://itozyun.github.io/regexp-free-js-base64/test/index.html)
+
+## mocha test
+
+```
+npm install
+npm test
 ```
 
-If you are using it on ES6 transpilers, you may also need:
+## Build
 
-```javascript
-$ npm install --save babel-preset-env
 ```
-
-Note `js-base64` itself is stand-alone so its `package.json` has no `dependencies`.  However, it is also tested on ES6 environment so `"babel-preset-env": "^1.7.0"` is on `devDependencies`.
-
+gulp dist
+```
 
 ## Usage
 
@@ -33,11 +38,13 @@ Note `js-base64` itself is stand-alone so its `package.json` has no `dependencie
 var Base64 = require('js-base64').Base64;
 ```
 
+<!--
 ## es6+
 
 ```javascript
 import { Base64 } from 'js-base64';
 ```
+--->
 
 ## SYNOPSIS
 
@@ -65,31 +72,6 @@ Base64.decode('5bCP6aO85by+');  // 小飼弾
 // note .decodeURI() is unnecessary since it accepts both flavors
 Base64.decode('5bCP6aO85by-');  // 小飼弾
 Base64.atob(  '5bCP6aO85by+');  // 'å°é£¼å¼¾' which is nonsense
-```
-
-### String Extension for ES5
-
-```javascript
-if (Base64.extendString) {
-    // you have to explicitly extend String.prototype
-    Base64.extendString();
-    // once extended, you can do the following
-    'dankogai'.toBase64();        // ZGFua29nYWk=
-    '小飼弾'.toBase64();           // 5bCP6aO85by+
-    '小飼弾'.toBase64(true);       // 5bCP6aO85by-
-    '小飼弾'.toBase64URI();        // 5bCP6aO85by-
-    'ZGFua29nYWk='.fromBase64();  // dankogai
-    '5bCP6aO85by+'.fromBase64();  // 小飼弾
-    '5bCP6aO85by-'.fromBase64();  // 小飼弾
-}
-```
-
-### TypeScript
-
-TypeScript 2.0 type definition was added to the [DefinitelyTyped repository](https://github.com/DefinitelyTyped/DefinitelyTyped).
-
-```bash
-$ npm install --save @types/js-base64
 ```
 
 ## `.decode()` vs `.atob` (and `.encode()` vs `btoa()`)

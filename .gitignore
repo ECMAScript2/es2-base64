@@ -1,5 +1,1 @@
-*,v
-*.bak
-attic/**/*
-node_modules/**/*
-tmp/**/*
+node_modules

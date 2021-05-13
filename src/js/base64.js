@@ -14,7 +14,7 @@
  */
     var
         /** @define {boolean} */
-        REGEXP_FREE_BASE64_DEFINE_DEBUG            = true,
+        REGEXP_FREE_BASE64_DEFINE_DEBUG            = false,
         /** @define {boolean} */
         REGEXP_FREE_BASE64_DEFINE_USE_UTOB         = true,
         /** @define {boolean} */
@@ -40,7 +40,8 @@
     /* var Base64_decode, Base64_encode,
         Base64_atob, Base64_btoa,
         Base64_utob, Base64_btou, Base64_encodeURI,
-        Base64_fromUint8Array, Base64_toUint8Array; */
+        Base64_fromUint8Array, Base64_toUint8Array,
+        Base64_uriSafeBtoa, Base64_uriSafeAtob; */
 
 /** ===========================================================================
  * private
@@ -283,13 +284,13 @@ if(REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_ATOB){
 };
 if(REGEXP_FREE_BASE64_DEFINE_USE_DECODE){
     Base64_decode = function(a) {
-        return Base64_btou(_atob(_fromURI(_cleanup(a))));
+        return Base64_btou(_atob(_cleanup(_fromURI(a))));
     };
 };
 
 // Uint8Array
 if(REGEXP_FREE_BASE64_DEFINE_USE_UINT8){
-    if(global.Uint8Array){
+    if(typeof Uint8Array === 'function'){
         Base64_fromUint8Array = function(a, urisafe) {
             var b64 = '', i = 0, l = a.length,
                 a0, a1, a2, ord, undef;
@@ -297,12 +298,12 @@ if(REGEXP_FREE_BASE64_DEFINE_USE_UINT8){
             for (; i < l; i += 3) {
                 a0 = a[i], a1 = a[i+1], a2 = a[i+2];
                 ord = a0 << 16 | a1 << 8 | a2;
-                b64 +=    b64chars.charAt( ord >>> 18)
-                    +     b64chars.charAt((ord >>> 12) & 63)
+                b64 +=    b64chars[ ord >>> 18]
+                    +     b64chars[(ord >>> 12) & 63]
                     + ( a1 !== undef
-                        ? b64chars.charAt((ord >>>  6) & 63) : '=')
+                        ? b64chars[(ord >>>  6) & 63] : '=')
                     + ( a2 !== undef
-                        ? b64chars.charAt( ord         & 63) : '=');
+                        ? b64chars[ ord         & 63] : '=');
             };
             return urisafe ? mkUriSafe(b64) : b64;
         };
@@ -319,6 +320,8 @@ if(REGEXP_FREE_BASE64_DEFINE_USE_UINT8){
         global.Base64 = {
             atob           : Base64_atob,
             btoa           : Base64_btoa,
+            uriSafeAtob    : Base64_uriSafeAtob,
+            uriSafeBtoa    : Base64_uriSafeBtoa,
             fromBase64     : Base64_decode,
             toBase64       : Base64_encode,
             utob           : Base64_utob,

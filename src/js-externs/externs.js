@@ -1,3 +1,20 @@
+/** @type {Object} */
+var Base64 = {
+    atob           : function(){},
+    btoa           : function(){},
+    uriSafeAtob    : function(){},
+    uriSafeBtoa    : function(){},
+    fromBase64     : function(){},
+    toBase64       : function(){},
+    utob           : function(){},
+    encode         : function(){},
+    encodeURI      : function(){},
+    btou           : function(){},
+    decode         : function(){},
+    fromUint8Array : function(){},
+    toUint8Array   : function(){}
+};
+
 /** @type {function} */
 var Base64_atob = function(){};
 

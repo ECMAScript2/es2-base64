@@ -11,6 +11,10 @@ Closure Compiler を使った最適化は [gulpfile.js](./gulpfile.js) を参照
 * [Demo for base64.js](https://itozyun.github.io/regexp-free-js-base64/test/demo.html)
 * [Mocha Tests](https://itozyun.github.io/regexp-free-js-base64/test/index.html)
 
+## 命名ルール
+
+[僕のWeb開発の、変数と関数、ファイル名とフォルダ名の命名ルール](https://outcloud.blogspot.com/2021/08/naming-rules.html)
+
 ## mocha test
 
 ```

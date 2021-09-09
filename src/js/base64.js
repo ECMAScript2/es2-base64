@@ -14,25 +14,25 @@
  */
     var
         /** @define {boolean} */
-        REGEXP_FREE_BASE64_DEFINE_DEBUG            = false,
+        DEFINE_REGEXP_FREE_BASE64__DEBUG            = false,
         /** @define {boolean} */
-        REGEXP_FREE_BASE64_DEFINE_USE_UTOB         = true,
+        DEFINE_REGEXP_FREE_BASE64__USE_UTOB         = true,
         /** @define {boolean} */
-        REGEXP_FREE_BASE64_DEFINE_USE_BTOU         = true,
+        DEFINE_REGEXP_FREE_BASE64__USE_BTOU         = true,
         /** @define {boolean} */
-        REGEXP_FREE_BASE64_DEFINE_USE_BTOA         = true,
+        DEFINE_REGEXP_FREE_BASE64__USE_BTOA         = true,
         /** @define {boolean} */
-        REGEXP_FREE_BASE64_DEFINE_USE_ATOB         = true,
+        DEFINE_REGEXP_FREE_BASE64__USE_ATOB         = true,
         /** @define {boolean} */
-        REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_BTOA = false,
+        DEFINE_REGEXP_FREE_BASE64__USE_URISAFE_BTOA = false,
         /** @define {boolean} */
-        REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_ATOB = false,
+        DEFINE_REGEXP_FREE_BASE64__USE_URISAFE_ATOB = false,
         /** @define {boolean} */
-        REGEXP_FREE_BASE64_DEFINE_USE_UINT8        = true,
+        DEFINE_REGEXP_FREE_BASE64__USE_UINT8        = true,
         /** @define {boolean} */
-        REGEXP_FREE_BASE64_DEFINE_USE_ENCODE       = true,
+        DEFINE_REGEXP_FREE_BASE64__USE_ENCODE       = true,
         /** @define {boolean} */
-        REGEXP_FREE_BASE64_DEFINE_USE_DECODE       = true;
+        DEFINE_REGEXP_FREE_BASE64__USE_DECODE       = true;
 
 /** ===========================================================================
  * public
@@ -48,10 +48,10 @@
  */
 (function(global){
 // constants
-    var USE_URISAFE_B64CHAR = (!REGEXP_FREE_BASE64_DEFINE_USE_BTOA         && !REGEXP_FREE_BASE64_DEFINE_USE_ATOB) &&
-                              ( REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_BTOA ||  REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_ATOB) &&
-                              (!REGEXP_FREE_BASE64_DEFINE_USE_ENCODE       && !REGEXP_FREE_BASE64_DEFINE_USE_DECODE) &&
-                               !REGEXP_FREE_BASE64_DEFINE_USE_UINT8;
+    var USE_URISAFE_B64CHAR = (!DEFINE_REGEXP_FREE_BASE64__USE_BTOA         && !DEFINE_REGEXP_FREE_BASE64__USE_ATOB) &&
+                              ( DEFINE_REGEXP_FREE_BASE64__USE_URISAFE_BTOA ||  DEFINE_REGEXP_FREE_BASE64__USE_URISAFE_ATOB) &&
+                              (!DEFINE_REGEXP_FREE_BASE64__USE_ENCODE       && !DEFINE_REGEXP_FREE_BASE64__USE_DECODE) &&
+                               !DEFINE_REGEXP_FREE_BASE64__USE_UINT8;
     var b64chars = !USE_URISAFE_B64CHAR ?
                       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'.split('') :
                       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'.split('');
@@ -64,7 +64,7 @@
     var fromCharCode = String.fromCharCode;
 
 // encoder stuff
-if(REGEXP_FREE_BASE64_DEFINE_USE_UTOB || REGEXP_FREE_BASE64_DEFINE_USE_ENCODE){
+if(DEFINE_REGEXP_FREE_BASE64__USE_UTOB || DEFINE_REGEXP_FREE_BASE64__USE_ENCODE){
     Base64_utob = function(u) {
         var _fromCharCode = fromCharCode,
             b = '', len, cc1, cc2, cc, chr;
@@ -101,14 +101,14 @@ if(REGEXP_FREE_BASE64_DEFINE_USE_UTOB || REGEXP_FREE_BASE64_DEFINE_USE_ENCODE){
     };
 };
 
-if(REGEXP_FREE_BASE64_DEFINE_USE_BTOA || REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_BTOA){
-    if(!REGEXP_FREE_BASE64_DEFINE_DEBUG && global.btoa){
+if(DEFINE_REGEXP_FREE_BASE64__USE_BTOA || DEFINE_REGEXP_FREE_BASE64__USE_URISAFE_BTOA){
+    if(!DEFINE_REGEXP_FREE_BASE64__DEBUG && global.btoa){
         _btoa = global.btoa;
     };
 };
 function _btoa(b) {
     var _b64chars = b64chars,
-        _b = REGEXP_FREE_BASE64_DEFINE_DEBUG && b,
+        _b = DEFINE_REGEXP_FREE_BASE64__DEBUG && b,
         a  = '',
         padlen = 0,
         padChr = USE_URISAFE_B64CHAR ? '' : '=',
@@ -130,7 +130,7 @@ function _btoa(b) {
         b = b.substr(3);
     };
 
-    if(REGEXP_FREE_BASE64_DEFINE_DEBUG && global.btoa){
+    if(DEFINE_REGEXP_FREE_BASE64__DEBUG && global.btoa){
         if(USE_URISAFE_B64CHAR){
             if(mkUriSafe(global.btoa(_b)) !== a) alert( '** btoa error!' );
         } else {
@@ -146,11 +146,11 @@ function _btoa(b) {
         return b64.split('+').join('-').split('/').join('_').split('=').join('');
     };
 
-if(REGEXP_FREE_BASE64_DEFINE_USE_BTOA){
+if(DEFINE_REGEXP_FREE_BASE64__USE_BTOA){
     Base64_btoa = _btoa;
 };
 
-if(REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_BTOA){
+if(DEFINE_REGEXP_FREE_BASE64__USE_URISAFE_BTOA){
     if(!USE_URISAFE_B64CHAR || global.btoa){
         Base64_uriSafeBtoa = function(b) { return mkUriSafe(_btoa(b)) };
     } else {
@@ -158,7 +158,7 @@ if(REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_BTOA){
     };
 };
 
-if(REGEXP_FREE_BASE64_DEFINE_USE_ENCODE){
+if(DEFINE_REGEXP_FREE_BASE64__USE_ENCODE){
     Base64_encode = function(u, urisafe) {
         return urisafe ? Base64_encodeURI(u) : _encode(u);
     };
@@ -166,7 +166,7 @@ if(REGEXP_FREE_BASE64_DEFINE_USE_ENCODE){
 };
 
     // decoder stuff
-if(REGEXP_FREE_BASE64_DEFINE_USE_BTOU || REGEXP_FREE_BASE64_DEFINE_USE_DECODE){
+if(DEFINE_REGEXP_FREE_BASE64__USE_BTOU || DEFINE_REGEXP_FREE_BASE64__USE_DECODE){
     Base64_btou = function(b) {
         var _fromCharCode = fromCharCode,
             out = '',
@@ -224,12 +224,12 @@ if(REGEXP_FREE_BASE64_DEFINE_USE_BTOU || REGEXP_FREE_BASE64_DEFINE_USE_DECODE){
     };
 };
 
-    if(!REGEXP_FREE_BASE64_DEFINE_DEBUG && global.atob){
+    if(!DEFINE_REGEXP_FREE_BASE64__DEBUG && global.atob){
         _atob = global.atob;
     };
     function _atob(a) {
         var _fromCharCode = fromCharCode,
-            _a = REGEXP_FREE_BASE64_DEFINE_DEBUG && a,
+            _a = DEFINE_REGEXP_FREE_BASE64__DEBUG && a,
             b = '',
             padlen = 0, len, n;
 
@@ -247,7 +247,7 @@ if(REGEXP_FREE_BASE64_DEFINE_USE_BTOU || REGEXP_FREE_BASE64_DEFINE_USE_DECODE){
             a = a.substr(4);
         };
 
-        if(REGEXP_FREE_BASE64_DEFINE_DEBUG && global.atob){
+        if(DEFINE_REGEXP_FREE_BASE64__DEBUG && global.atob){
             if(USE_URISAFE_B64CHAR){
                 if(_fromURI(global.atob(_a)) !== b) alert( '** atob error!' );
             } else {
@@ -270,26 +270,26 @@ if(REGEXP_FREE_BASE64_DEFINE_USE_BTOU || REGEXP_FREE_BASE64_DEFINE_USE_DECODE){
         return (a + '').split('-').join('+').split('_').join('/');
     };
 
-if(REGEXP_FREE_BASE64_DEFINE_USE_ATOB){
+if(DEFINE_REGEXP_FREE_BASE64__USE_ATOB){
     Base64_atob = function(a) {
         return _atob(_cleanup(a));
     };
 };
-if(REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_ATOB){
+if(DEFINE_REGEXP_FREE_BASE64__USE_URISAFE_ATOB){
     if(!USE_URISAFE_B64CHAR || global.atob){
         Base64_uriSafeAtob = function(a) { return _atob(_fromURI(a)) };
     } else {
         Base64_uriSafeAtob = _atob;
     };
 };
-if(REGEXP_FREE_BASE64_DEFINE_USE_DECODE){
+if(DEFINE_REGEXP_FREE_BASE64__USE_DECODE){
     Base64_decode = function(a) {
         return Base64_btou(_atob(_cleanup(_fromURI(a))));
     };
 };
 
 // Uint8Array
-if(REGEXP_FREE_BASE64_DEFINE_USE_UINT8){
+if(DEFINE_REGEXP_FREE_BASE64__USE_UINT8){
     if(typeof Uint8Array === 'function'){
         Base64_fromUint8Array = function(a, urisafe) {
             var b64 = '', i = 0, l = a.length,
@@ -316,7 +316,7 @@ if(REGEXP_FREE_BASE64_DEFINE_USE_UINT8){
 };
 
 // export Base64 for test
-    if(REGEXP_FREE_BASE64_DEFINE_DEBUG){
+    if(DEFINE_REGEXP_FREE_BASE64__DEBUG){
         global.Base64 = {
             atob           : Base64_atob,
             btoa           : Base64_btoa,

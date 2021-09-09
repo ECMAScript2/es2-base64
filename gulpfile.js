@@ -13,9 +13,9 @@ gulp.task('dist', gulp.series(
                     {
                         externs           : [ externsJs ],
                         define            : [
-                            'REGEXP_FREE_BASE64_DEFINE_DEBUG=true',
-                            'REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_BTOA=true',
-                            'REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_ATOB=true'
+                            'DEFINE_REGEXP_FREE_BASE64__DEBUG=true',
+                            'DEFINE_REGEXP_FREE_BASE64__USE_URISAFE_BTOA=true',
+                            'DEFINE_REGEXP_FREE_BASE64__USE_URISAFE_ATOB=true'
                         ],
                         compilation_level : 'ADVANCED',
                         //compilation_level : 'WHITESPACE_ONLY',
@@ -42,16 +42,16 @@ gulp.task('dist', gulp.series(
                     {
                         externs           : [ externsJs ],
                         define            : [
-                            'REGEXP_FREE_BASE64_DEFINE_DEBUG=true',
-                            'REGEXP_FREE_BASE64_DEFINE_USE_UTOB=false',
-                            'REGEXP_FREE_BASE64_DEFINE_USE_BTOU=false',
-                            'REGEXP_FREE_BASE64_DEFINE_USE_BTOA=false',
-                            'REGEXP_FREE_BASE64_DEFINE_USE_ATOB=false',
-                            'REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_BTOA=true',
-                            'REGEXP_FREE_BASE64_DEFINE_USE_URISAFE_ATOB=true',
-                            'REGEXP_FREE_BASE64_DEFINE_USE_UINT8=false',
-                            'REGEXP_FREE_BASE64_DEFINE_USE_ENCODE=false',
-                            'REGEXP_FREE_BASE64_DEFINE_USE_DECODE=false'
+                            'DEFINE_REGEXP_FREE_BASE64__DEBUG=true',
+                            'DEFINE_REGEXP_FREE_BASE64__USE_UTOB=false',
+                            'DEFINE_REGEXP_FREE_BASE64__USE_BTOU=false',
+                            'DEFINE_REGEXP_FREE_BASE64__USE_BTOA=false',
+                            'DEFINE_REGEXP_FREE_BASE64__USE_ATOB=false',
+                            'DEFINE_REGEXP_FREE_BASE64__USE_URISAFE_BTOA=true',
+                            'DEFINE_REGEXP_FREE_BASE64__USE_URISAFE_ATOB=true',
+                            'DEFINE_REGEXP_FREE_BASE64__USE_UINT8=false',
+                            'DEFINE_REGEXP_FREE_BASE64__USE_ENCODE=false',
+                            'DEFINE_REGEXP_FREE_BASE64__USE_DECODE=false'
                         ],
                         compilation_level : 'ADVANCED',
                         //compilation_level : 'WHITESPACE_ONLY',

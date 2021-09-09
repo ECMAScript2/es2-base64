@@ -1,6 +1,6 @@
 {
   "name": "regexp-free-js-base64",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Yet another Base64 transcoder in pure-JS",
   "author": "itozyun",
   "license": "BSD-3-Clause",

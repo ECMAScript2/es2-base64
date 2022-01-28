@@ -15,7 +15,7 @@
     "base64"
   ],
   "devDependencies": {
-    "google-closure-compiler": "^20210505.0.0",
+    "google-closure-compiler": "^20220104.0.0",
     "gulp": "^4.0.2",
     "mocha": "^8.4.0"
   }

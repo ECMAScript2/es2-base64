@@ -12,27 +12,26 @@
 /** ===========================================================================
  * for closure compiler
  */
-    var
-        /** @define {boolean} */
-        DEFINE_REGEXP_FREE_BASE64__DEBUG            = false,
-        /** @define {boolean} */
-        DEFINE_REGEXP_FREE_BASE64__USE_UTOB         = true,
-        /** @define {boolean} */
-        DEFINE_REGEXP_FREE_BASE64__USE_BTOU         = true,
-        /** @define {boolean} */
-        DEFINE_REGEXP_FREE_BASE64__USE_BTOA         = true,
-        /** @define {boolean} */
-        DEFINE_REGEXP_FREE_BASE64__USE_ATOB         = true,
-        /** @define {boolean} */
-        DEFINE_REGEXP_FREE_BASE64__USE_URISAFE_BTOA = false,
-        /** @define {boolean} */
-        DEFINE_REGEXP_FREE_BASE64__USE_URISAFE_ATOB = false,
-        /** @define {boolean} */
-        DEFINE_REGEXP_FREE_BASE64__USE_UINT8        = true,
-        /** @define {boolean} */
-        DEFINE_REGEXP_FREE_BASE64__USE_ENCODE       = true,
-        /** @define {boolean} */
-        DEFINE_REGEXP_FREE_BASE64__USE_DECODE       = true;
+/** @define {boolean} */
+var DEFINE_REGEXP_FREE_BASE64__DEBUG            = false;
+/** @define {boolean} */
+var DEFINE_REGEXP_FREE_BASE64__USE_UTOB         = true;
+/** @define {boolean} */
+var DEFINE_REGEXP_FREE_BASE64__USE_BTOU         = true;
+/** @define {boolean} */
+var DEFINE_REGEXP_FREE_BASE64__USE_BTOA         = true;
+/** @define {boolean} */
+var DEFINE_REGEXP_FREE_BASE64__USE_ATOB         = true;
+/** @define {boolean} */
+var DEFINE_REGEXP_FREE_BASE64__USE_URISAFE_BTOA = false;
+/** @define {boolean} */
+var DEFINE_REGEXP_FREE_BASE64__USE_URISAFE_ATOB = false;
+/** @define {boolean} */
+var DEFINE_REGEXP_FREE_BASE64__USE_UINT8        = true;
+/** @define {boolean} */
+var DEFINE_REGEXP_FREE_BASE64__USE_ENCODE       = true;
+/** @define {boolean} */
+var DEFINE_REGEXP_FREE_BASE64__USE_DECODE       = true;
 
 /** ===========================================================================
  * public
@@ -57,8 +56,8 @@
                       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'.split('');
     var b64tab = {};
     
-    (function(i, chr){
-        for (; chr = b64chars[++i];) b64tab[chr] = i;
+    (function(i){
+        for (var chr; chr = b64chars[++i];) b64tab[chr] = i;
     })(-1);
 
     var fromCharCode = String.fromCharCode;
@@ -159,6 +158,10 @@ if(DEFINE_REGEXP_FREE_BASE64__USE_URISAFE_BTOA){
 };
 
 if(DEFINE_REGEXP_FREE_BASE64__USE_ENCODE){
+    /**
+     * @param {string} u
+     * @param {boolean=} urisafe
+     */
     Base64_encode = function(u, urisafe) {
         return urisafe ? Base64_encodeURI(u) : _encode(u);
     };
@@ -291,6 +294,10 @@ if(DEFINE_REGEXP_FREE_BASE64__USE_DECODE){
 // Uint8Array
 if(DEFINE_REGEXP_FREE_BASE64__USE_UINT8){
     if(typeof Uint8Array === 'function'){
+        /**
+         * @param {string} a
+         * @param {boolean=} urisafe
+         */
         Base64_fromUint8Array = function(a, urisafe) {
             var b64 = '', i = 0, l = a.length,
                 a0, a1, a2, ord, undef;

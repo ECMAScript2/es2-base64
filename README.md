@@ -1,6 +1,6 @@
 <!-- [![build status](https://secure.travis-ci.org/dankogai/js-base64.png)](http://travis-ci.org/dankogai/js-base64) -->
 
-# regexp-free-js-base64
+# es2-base64
 
 [dankogai](https://github.com/dankogai) 氏の [js-base64](https://github.com/dankogai/js-base64) を元に、正規表現を不使用としました。正規表現をサポートしない Windows CE 版 Internet Explorer 4.01 でも動作します。(未確認)
 
@@ -8,8 +8,8 @@ Closure Compiler で必要な関数だけをプロジェクトに組み込み、
 
 Closure Compiler を使った最適化は [gulpfile.js](./gulpfile.js) を参照します。
 
-* [Demo for base64.js](https://itozyun.github.io/regexp-free-js-base64/test/demo.html)
-* [Mocha Tests](https://itozyun.github.io/regexp-free-js-base64/test/index.html)
+* [Demo for base64.js](https://ECMAScript2.github.io/es2-base64/test/demo.html)
+* [Mocha Tests](https://ECMAScript2.github.io/es2-base64/test/index.html)
 
 ## 命名ルール
 

@@ -1,4 +1,4 @@
-/** regexp-free-js-base64.js
+/** es2-base64.js
  *
  *  Original:
  *    https://github.com/dankogai/js-base64/ version 2.6.3, BSD 3-Clause

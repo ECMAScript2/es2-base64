@@ -17,6 +17,6 @@
   "devDependencies": {
     "google-closure-compiler": "^20220104.0.0",
     "gulp": "^4.0.2",
-    "mocha": "^8.4.0"
+    "mocha": "^10.2.0"
   }
 }

@@ -29,7 +29,7 @@ gulp.task('dist', gulp.series(
                                                 'Base64_fromUint8Array, Base64_toUint8Array,' +
                                                 'Base64_uriSafeBtoa, Base64_uriSafeAtob;' +
                                             '%output%' +
-                                            ';;module.export=this.Base64;',
+                                            ';;module.exports=this.Base64;',
                         js_output_file    : 'base64.min.js'
                     }
                 )
@@ -65,7 +65,7 @@ gulp.task('dist', gulp.series(
                                                 'Base64_fromUint8Array, Base64_toUint8Array,' +
                                                 'Base64_uriSafeBtoa, Base64_uriSafeAtob;' +
                                             '%output%' +
-                                            ';;module.export=this.Base64;',
+                                            ';;module.exports=this.Base64;',
                         js_output_file    : 'base64-uriSafe.min.js'
                     }
                 )
